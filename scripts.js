@@ -107,47 +107,43 @@ const handleEditToggle = (event) => {
 
         const editId = event.srcElement.dataset.id
         const editedObj = orders.find(item => item.dataset.id === editId);
-
         html.edit.id.dataset.editId = editedObj.dataset.id
         html.edit.title.value = editedObj.querySelector('[data-order-title]').textContent
         html.edit.table.value = editedObj.querySelector('[data-order-table]').textContent
-        html.edit.column.value = editedObj.parentNode.dataset.column
-
-    } else {
+        html.edit.column.value = editedObj.parentNode.dataset.column} 
+        else {
         document.querySelector('.backdrop').style.display = 'none'
         html.edit.overlay.style.display = 'none'
-    }
-
-}
+    }}
 
 const handleEditSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const itemId = html.edit.id.dataset.editId;
-    const editedObj = orders.find(item => item.dataset.id === itemId);
+    const itemId = html.edit.id.dataset.editId
+    const editedObj = orders.find(item => item.dataset.id === itemId)
 
-    const formData = new FormData(event.target);
-    formData.set('id', `${itemId}`);
-    const data = Object.fromEntries(formData);
+    const formData = new FormData(event.target)
+    formData.set('id', `${itemId}`)
+    const data = Object.fromEntries(formData)
 
     updateEditedItem(editedObj, data);
-    moveEditedItemToColumn(data.column, editedObj);
-    resetFormAndHideOverlay(html.edit.overlay);
+    moveEditedItemToColumn(data.column, editedObj)
+    resetFormAndHideOverlay(html.edit.overlay)
 };
 
 const updateEditedItem = (editedObj, data) => {
     ['title', 'table'].forEach(key => {
-        const element = editedObj.querySelector(`[data-order-${key}]`);
+        const element = editedObj.querySelector(`[data-order-${key}]`)
         if (element) {
-            element.textContent = data[key] || '';
+            element.textContent = data[key] || ''
         }
     });
 };
 
 const moveEditedItemToColumn = (targetColumn, editedObj) => {
-    const targetColumnElement = html.columns[targetColumn];
+    const targetColumnElement = html.columns[targetColumn]
     if (targetColumnElement instanceof HTMLElement) {
-        targetColumnElement.appendChild(editedObj);
+        targetColumnElement.appendChild(editedObj)
     }
 };
 
@@ -157,10 +153,10 @@ const resetFormAndHideOverlay = (overlay) => {
 };
 
 const hideOverlayEdit = (overlayElement) => {
-    const backdrop = document.querySelector('.backdrop');
+    const backdrop = document.querySelector('.backdrop')
     if (backdrop && overlayElement) {
-        backdrop.style.display = 'none';
-        overlayElement.style.display = 'none';
+        backdrop.style.display = 'none'
+        overlayElement.style.display = 'none'
     }
 };
 
@@ -172,12 +168,12 @@ const handleDelete = (event) => {
     orders = orders.filter(item => item.dataset.id !== editId);
 
     // Remove corresponding HTML element from the 'ordered' column
-    const elementToRemove = document.querySelector(`[data-id="${editId}"]`);
+    const elementToRemove = document.querySelector(`[data-id="${editId}"]`)
     if (elementToRemove && elementToRemove.parentNode === html.columns.ordered) {
-        html.columns.ordered.removeChild(elementToRemove);
+        html.columns.ordered.removeChild(elementToRemove)
     }
 
-    hideOverlayAndBackdrop();
+    hideOverlayAndBackdrop()
 };
 
 const checkOverlayAndFocusBtn = (overlay) => {
@@ -187,10 +183,10 @@ const checkOverlayAndFocusBtn = (overlay) => {
 };
 
 const hideOverlayAndBackdrop = () => {
-    document.querySelector('.backdrop').style.display = 'none';
-    html.edit.overlay.style.display = 'none';
+    document.querySelector('.backdrop').style.display = 'none'
+    html.edit.overlay.style.display = 'none'
 
-    checkOverlayAndFocusBtn(html.edit.overlay);
+    checkOverlayAndFocusBtn(html.edit.overlay)
 };
 window.onload = () => html.other.add.focus()
 
@@ -208,9 +204,6 @@ html.other.help.addEventListener('click', handleHelpToggle)
 
 for (const htmlColumn of Object.values(html.columns)) {
     htmlColumn.addEventListener('dragstart', handleDragStart)
-    htmlColumn.addEventListener('dragend', handleDragEnd)
-}
-
+    htmlColumn.addEventListener('dragend', handleDragEnd)}
 for (const htmlArea of Object.values(html.area)) {
-    htmlArea.addEventListener('dragover', handleDragOver)
-}
+    htmlArea.addEventListener('dragover', handleDragOver)}
